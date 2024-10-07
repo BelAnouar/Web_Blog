@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 
 
 public class Servletarticle extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
+       
     /**
-     * Default constructor. 
+     * @see HttpServlet#HttpServlet()
      */
     public Servletarticle() {
+        super();
         // TODO Auto-generated constructor stub
     }
 
