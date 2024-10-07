@@ -10,4 +10,14 @@
     <servlet-name>Servletarticle</servlet-name>
     <url-pattern>/Servletarticle</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletArticle</display-name>
+    <servlet-name>ServletArticle</servlet-name>
+    <servlet-class>com.webblog.controllers.Servletarticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletArticle</servlet-name>
+    <url-pattern>/ServletArticle</url-pattern>
+  </servlet-mapping>
 </web-app>
