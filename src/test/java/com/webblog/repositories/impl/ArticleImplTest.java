@@ -72,7 +72,12 @@ public class ArticleImplTest {
         Article article = new Article();
         article.setId(3);
         Article updatedArticle = entityManager.find(Article.class, article.getId());
-        updatedArticle.setTitre("UMP6");
+        updatedArticle.setTitre("ocs");
+        updatedArticle.setTitre("anwar");
+        updatedArticle.setContenu("Test Content");
+        updatedArticle.setDateCreation(LocalDate.now());
+        updatedArticle.setDatePublication(LocalDate.now());
+        updatedArticle.setStatut(Status.Brouillon);
         entityManager.getTransaction().commit();
 
         Article retrievedArticle = entityManager.find(Article.class, article.getId());
