@@ -70,7 +70,7 @@ public class ArticleImplTest {
 
         entityManager.getTransaction().begin();
         Article article = new Article();
-        article.setId(21);
+        article.setId(6);
         Article updatedArticle = entityManager.find(Article.class, article.getId());
         updatedArticle.setTitre("asfi");
         updatedArticle.setContenu("Content");
@@ -92,7 +92,7 @@ public class ArticleImplTest {
 
         entityManager.getTransaction().begin();
         Article article = new Article();
-        article.setId(18);
+        article.setId(22);
         Article toDelete = entityManager.find(Article.class, article.getId());
         entityManager.remove(toDelete);
         entityManager.getTransaction().commit();
