@@ -94,4 +94,5 @@ public class ArticleServiceTest {
         assertEquals(articleId, result.getId());
         verify(articleImpl, times(1)).findById(articleId);
     }
+   
 }

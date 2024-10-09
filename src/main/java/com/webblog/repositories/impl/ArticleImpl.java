@@ -111,7 +111,7 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
                           "JOIN Commentaire c ON a.id = c.article.id " +
                           "GROUP BY article.id";
             
-            Query query = entityManager.createQuery(jpql);
+            Query query = entityManager.createQuery(jpql,Article.class);
             
             query.setFirstResult((page - 1) * pageSize); 
             query.setMaxResults(pageSize); 
@@ -141,7 +141,7 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
     	        transaction.begin();
     	        
     	        String jpql = "SELECT COUNT(a) FROM Article a";
-    	        Query query = entityManager.createQuery(jpql);
+    	        Query query = entityManager.createQuery(jpql,Article.class);
     	        
     	        count = (Long) query.getSingleResult();
     	        
