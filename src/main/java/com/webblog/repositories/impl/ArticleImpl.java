@@ -41,6 +41,7 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
 
     @Override
     public Boolean update(Article entity) {
+    	//System 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
