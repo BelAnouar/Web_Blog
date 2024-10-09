@@ -11,7 +11,6 @@ import com.webblog.models.Article;
 import com.webblog.repositories.GenericRepository;
 import com.webblog.repositories.MultiInterface;
 
-import net.bytebuddy.implementation.Implementation;
 
 public class ArticleImpl implements GenericRepository<Article, Integer>, MultiInterface<Article> {
     private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("webblogPU");
@@ -58,7 +57,7 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
 
             entityManager.merge(existingArticle);
             transaction.commit();
-            System.out.println("Mise à jour réussie pour l'article : " + existingArticle);
+            System.out.println("Mise à jour réussie pour l'article  : " + existingArticle);
             return true;
         } catch (Exception e) {
             if (transaction.isActive()) {
