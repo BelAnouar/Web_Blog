@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.EntityTransaction;
 
 import com.webblog.models.Article;
@@ -97,14 +98,64 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
 
     @Override
     public List<Article> getPage(int page, int pageSize) {
-        // TODO Auto-generated method stub
-        return null;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        
+        List<Article> articles = null;
+        
+        try {
+            transaction.begin();
+            
+            String jpql = "SELECT a.titre, a.contenu, a.dateCreation, a.datePublication, COUNT(c.id) AS commentaire " +
+                          "FROM Article a " +
+                          "JOIN Commentaire c ON a.id = c.article.id " +
+                          "GROUP BY article.id";
+            
+            Query query = entityManager.createQuery(jpql);
+            
+            query.setFirstResult((page - 1) * pageSize); 
+            query.setMaxResults(pageSize); 
+                     
+            articles = query.getResultList();
+            
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+        
+        return articles;
     }
 
     @Override
     public long count() {
-        // TODO Auto-generated method stub
-        return 0;
+    	 EntityManager entityManager = entityManagerFactory.createEntityManager();
+    	    EntityTransaction transaction = entityManager.getTransaction();
+    	    long count = 0;
+    	    
+    	    try {
+    	        transaction.begin();
+    	        
+    	        String jpql = "SELECT COUNT(a) FROM Article a";
+    	        Query query = entityManager.createQuery(jpql);
+    	        
+    	        count = (Long) query.getSingleResult();
+    	        
+    	        transaction.commit();
+    	    } catch (Exception e) {
+    	        if (transaction.isActive()) {
+    	            transaction.rollback();
+    	        }
+    	        e.printStackTrace();
+    	    } finally {
+    	        entityManager.close();
+    	    }
+    	    
+    	    return count;
     }
 
     public Article findById(Integer id) {
