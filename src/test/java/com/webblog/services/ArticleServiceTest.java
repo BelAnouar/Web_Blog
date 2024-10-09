@@ -32,7 +32,7 @@ public class ArticleServiceTest {
     @Test
     public void testSave() {
         Article article = new Article();
-        article.setTitre("services");
+        article.setTitre("services1");
         article.setContenu("Test Content");
         article.setDateCreation(LocalDate.now());
         article.setDatePublication(LocalDate.now());
