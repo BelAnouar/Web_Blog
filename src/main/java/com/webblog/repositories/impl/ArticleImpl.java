@@ -132,10 +132,10 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
     }
 
     @Override
-    public long count() {
+    public Integer count() {
     	 EntityManager entityManager = entityManagerFactory.createEntityManager();
     	    EntityTransaction transaction = entityManager.getTransaction();
-    	    long count = 0;
+    	    Integer count = 0;
     	    
     	    try {
     	        transaction.begin();
@@ -143,7 +143,7 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
     	        String jpql = "SELECT COUNT(a) FROM Article a";
     	        Query query = entityManager.createQuery(jpql,Article.class);
     	        
-    	        count = (Long) query.getSingleResult();
+    	        count = (Integer) query.getSingleResult();
     	        
     	        transaction.commit();
     	    } catch (Exception e) {
