@@ -22,7 +22,7 @@
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
-            <property name="hibernate.logging.level" value="DEBUG"/> <!-- Add this line -->
+            <property name="hibernate.logging.level" value="DEBUG"/> 
             
         </properties>
     </persistence-unit>
