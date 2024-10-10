@@ -11,6 +11,7 @@ import javax.persistence.EntityTransaction;
 import com.webblog.models.Article;
 import com.webblog.repositories.GenericRepository;
 import com.webblog.repositories.MultiInterface;
+import com.webblog.utilis.LoggerMessage;
 
 
 public class ArticleImpl implements GenericRepository<Article, Integer>, MultiInterface<Article> {
@@ -27,21 +28,24 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
             transaction.begin();
             entityManager.persist(entity);
             transaction.commit();
+            LoggerMessage.info("Ajouter l'article   ");
+
             return true;
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+            LoggerMessage.error(e.getMessage());
             return false;
         } finally {
             entityManager.close();
+            LoggerMessage.warn("Close");
+
         }
     }
 
     @Override
     public Boolean update(Article entity) {
-    	//System 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         try {
@@ -58,16 +62,19 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
 
             entityManager.merge(existingArticle);
             transaction.commit();
-            System.out.println("Mise à jour réussie pour l'article  : " + existingArticle);
+            LoggerMessage.info("Mise à jour réussie pour l'article ");
+
             return true;
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+            LoggerMessage.error(e.getMessage());
             return false;
         } finally {
             entityManager.close();
+            LoggerMessage.warn("Close");
+
         }
     }
 
@@ -81,6 +88,8 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
             if (article != null) {
                 entityManager.remove(article);
                 transaction.commit();
+                LoggerMessage.info("Delete Atricle");
+
                 return true;
             } else {
                 return false;
@@ -89,10 +98,13 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+            LoggerMessage.error(e.getMessage());
             return false;
         } finally {
             entityManager.close();
+            LoggerMessage.warn("Close");
+
+            
         }
     }
 
@@ -119,13 +131,17 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
             articles = query.getResultList();
             
             transaction.commit();
+            LoggerMessage.info("AFFCIHE DATA l'article ");
+
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+            LoggerMessage.error(e.getMessage());
         } finally {
             entityManager.close();
+            LoggerMessage.warn("Close");
+
         }
         
         return articles;
@@ -150,9 +166,11 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
     	        if (transaction.isActive()) {
     	            transaction.rollback();
     	        }
-    	        e.printStackTrace();
+                LoggerMessage.error(e.getMessage());
     	    } finally {
     	        entityManager.close();
+                LoggerMessage.warn("Close");
+
     	    }
     	    
     	    return count;
@@ -164,10 +182,12 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
             Article article = entityManager.find(Article.class, id);
             return article;
         } catch (Exception e) {
-            e.printStackTrace();
+            LoggerMessage.error(e.getMessage());
             return null;
         } finally {
             entityManager.close();
+            LoggerMessage.warn("Close");
+
         }
     }
 

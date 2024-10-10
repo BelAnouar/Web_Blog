@@ -60,6 +60,7 @@ public class Servletarticle extends HttpServlet {
 		       
 		            RequestDispatcher dispatcher = request.getRequestDispatcher("/views/articles.jsp");
 		            dispatcher.forward(request, response);
+
 	}
 
 

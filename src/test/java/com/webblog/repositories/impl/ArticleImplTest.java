@@ -32,6 +32,7 @@ public class ArticleImplTest {
         if (entityManager != null) {
             entityManager.close();
         }
+        
         if (entityManagerFactory != null) {
             entityManagerFactory.close();
         }
@@ -42,8 +43,8 @@ public class ArticleImplTest {
         entityManager.getTransaction().begin();
 
         Article article = new Article();
-        article.setTitre("Test Title");  // Corrected value
-        article.setContenu("Test Content");  // Corrected value
+        article.setTitre("Test Title");  
+        article.setContenu("Test Content"); 
         article.setDateCreation(LocalDate.now());
         article.setDatePublication(LocalDate.now());
         article.setStatut(Status.Publié); 
@@ -70,7 +71,7 @@ public class ArticleImplTest {
 
         entityManager.getTransaction().begin();
         Article article = new Article();
-        article.setId(21);
+        article.setId(23);
         Article updatedArticle = entityManager.find(Article.class, article.getId());
         updatedArticle.setTitre("asfi");
         updatedArticle.setContenu("Content");
@@ -92,7 +93,7 @@ public class ArticleImplTest {
 
         entityManager.getTransaction().begin();
         Article article = new Article();
-        article.setId(18);
+        article.setId(24);
         Article toDelete = entityManager.find(Article.class, article.getId());
         entityManager.remove(toDelete);
         entityManager.getTransaction().commit();
