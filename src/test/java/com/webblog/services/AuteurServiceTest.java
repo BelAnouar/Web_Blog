@@ -30,6 +30,7 @@ public class AuteurServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    
     @Test
     public void testSave() {
         Auteur auteur = new Auteur();
@@ -47,6 +48,7 @@ public class AuteurServiceTest {
         verify(auteurImpl, times(1)).save(auteur);
     }
 
+    
     @Test
     public void testUpdate() {
         Auteur auteur = new Auteur();
@@ -65,10 +67,11 @@ public class AuteurServiceTest {
         verify(auteurImpl, times(1)).update(auteur);
     }
 
+    
     @Test
     public void testDelete() {
         int auteurId = 1;
-
+        
         when(auteurImpl.delete(auteurId)).thenReturn(true);
 
         Boolean result = auteurService.delete(auteurId);
@@ -77,6 +80,7 @@ public class AuteurServiceTest {
         verify(auteurImpl, times(1)).delete(auteurId);
     }
 
+    
     @Test
     public void testFindById() {
         int auteurId = 1;
@@ -94,6 +98,7 @@ public class AuteurServiceTest {
         verify(auteurImpl, times(1)).findById(auteurId);
     }
 
+    
     @Test
     public void testGetAllAuteurs() {
         Auteur auteur1 = new Auteur();
