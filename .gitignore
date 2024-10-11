@@ -6,4 +6,5 @@ logs
 .project
 /bin/
 /.vscode
+.idea
 
