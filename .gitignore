@@ -1,7 +1,10 @@
 .settings
 build
 target
+logs
 .classpath
 .project
 /bin/
 /.vscode
+.idea
+
