@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <servlet>
-    <description></description>
-    <display-name>Servletarticle</display-name>
-    <servlet-name>Servletarticle</servlet-name>
-    <servlet-class>com.webblog.controllers.Servletarticle</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Servletarticle</servlet-name>
-    <url-pattern>/Servletarticle</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ServletArticle</display-name>
-    <servlet-name>ServletArticle</servlet-name>
-    <servlet-class>com.webblog.controllers.Servletarticle</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ServletArticle</servlet-name>
-    <url-pattern>/ServletArticle</url-pattern>
-  </servlet-mapping>
+
+    <display-name>Web_Blog</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+
+    <servlet>
+        <description></description>
+        <display-name>ServletArticle</display-name>
+        <servlet-name>ServletArticle</servlet-name>
+        <servlet-class>com.webblog.controllers.Servletarticle</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletArticle</servlet-name>
+        <url-pattern>/Article</url-pattern>
+    </servlet-mapping>
+
 </web-app>

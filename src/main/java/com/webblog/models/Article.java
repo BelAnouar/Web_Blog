@@ -47,7 +47,7 @@ public class Article {
 
     @NotNull(message = "Le statut est obligatoire")
     @Enumerated(EnumType.STRING)
-    @Column(name = "statut", nullable = false)
+    @Column(name = "statut", nullable = false, columnDefinition = "ENUM('Brouillon', 'Publié')")
     private Status statut;
 
    
