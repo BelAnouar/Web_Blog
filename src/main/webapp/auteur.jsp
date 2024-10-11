@@ -31,22 +31,23 @@
           
         </li>
         <li class='max-lg:border-b max-lg:py-4'><a href='#'
-            class='hover:text-[#FFA726] text-[#FFA726] text-sm block'>Home</a></li>
+            class='hover:text-[#FFA726] text-[#FFA726] text-md block'>Auteurs</a></li>
         <li class='max-lg:border-b max-lg:py-4'><a href='javascript:void(0)'
-            class='hover:text-[#FFA726] text-white text-sm block'>Team</a></li>
+            class='hover:text-[#FFA726] text-white text-md block'>Articles</a></li>
         <li class='max-lg:border-b max-lg:py-4'><a href='javascript:void(0)'
-            class='hover:text-[#FFA726] text-white text-sm block'>Feature</a></li>
+            class='hover:text-[#FFA726] text-white text-md block'>Commentaires</a></li>
         
       </ul>
   
       
     </div>
   </header>
+  <div class="w-[90%] mx-auto" >
   <button  type="button"
-        class=" px-5 py-2.5 rounded-lg text-sm m-4 tracking-wider font-medium border border-orange-600 outline-none bg-transparent hover:bg-gray-800 text-[#FFA726] hover:text-[#FFA726] transition-all duration-300">Ajouter un auteur</button>
+        class="  px-5 py-2.5 rounded-lg text-sm my-4 tracking-wider font-medium border border-orange-600 outline-none bg-transparent hover:bg-gray-800 text-[#FFA726] hover:text-[#FFA726] transition-all duration-300">Ajouter un auteur</button>
       
-  <div class="font-[sans-serif] overflow-x-auto">
-      <table class="min-w-full bg-white">
+  <div class="font-[sans-serif] overflow-x-auto rounded-lg">
+      <table class=" w-full bg-white">
         <thead class="bg-gray-800 whitespace-nowrap">
           <tr>
             <th class="p-4 text-left text-sm font-medium text-white">
@@ -155,7 +156,7 @@
         </tbody>
       </table>
     </div>
-    
+    </div>
     <script>
     var toggleOpen = document.getElementById('toggleOpen');
     var toggleClose = document.getElementById('toggleClose');
