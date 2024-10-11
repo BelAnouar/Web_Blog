@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
+
 import javax.persistence.EntityTransaction;
 
 import com.webblog.models.Article;
@@ -15,7 +15,8 @@ import com.webblog.utilis.LoggerMessage;
 
 
 public class ArticleImpl implements GenericRepository<Article, Integer>, MultiInterface<Article> {
-    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("webblogPU");
+	private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("webblogPU");
+
 
     public ArticleImpl() {
     }
@@ -108,73 +109,73 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
         }
     }
 
-    @Override
-    public List<Article> getPage(int page, int pageSize) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        
-        List<Article> articles = null;
-        
-        try {
-            transaction.begin();
-            
-            String jpql = "SELECT a.titre, a.contenu, a.dateCreation, a.datePublication, COUNT(c.id) AS commentaire " +
-                          "FROM Article a " +
-                          "JOIN Commentaire c ON a.id = c.article.id " +
-                          "GROUP BY article.id";
-            
-            Query query = entityManager.createQuery(jpql,Article.class);
-            
-            query.setFirstResult((page - 1) * pageSize); 
-            query.setMaxResults(pageSize); 
-                     
-            articles = query.getResultList();
-            
-            transaction.commit();
-            LoggerMessage.info("AFFCIHE DATA l'article ");
-
-        } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            LoggerMessage.error(e.getMessage());
-        } finally {
-            entityManager.close();
-            LoggerMessage.warn("Close");
-
-        }
-        
-        return articles;
-    }
-
-    @Override
-    public long count() {
-    	 EntityManager entityManager = entityManagerFactory.createEntityManager();
-    	    EntityTransaction transaction = entityManager.getTransaction();
-    	    long count = 0;
-    	    
-    	    try {
-    	        transaction.begin();
-    	        
-    	        String jpql = "SELECT COUNT(a) FROM Article a";
-    	        Query query = entityManager.createQuery(jpql,Article.class);
-    	        
-    	        count = (Long) query.getSingleResult();
-    	        
-    	        transaction.commit();
-    	    } catch (Exception e) {
-    	        if (transaction.isActive()) {
-    	            transaction.rollback();
-    	        }
-                LoggerMessage.error(e.getMessage());
-    	    } finally {
-    	        entityManager.close();
-                LoggerMessage.warn("Close");
-
-    	    }
-    	    
-    	    return count;
-    }
+//    @Override
+//    public List<Article> getPage(int page, int pageSize) {
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        EntityTransaction transaction = entityManager.getTransaction();
+//        
+//        List<Article> articles = null;
+//        
+//        try {
+//            transaction.begin();
+//            
+//            String jpql = "SELECT a.titre, a.contenu, a.dateCreation, a.datePublication, COUNT(c.id) AS commentaire " +
+//                          "FROM Article a " +
+//                          "JOIN Commentaire c ON a.id = c.article.id " +
+//                          "GROUP BY article.id";
+//            
+//            Query query = entityManager.createQuery(jpql,Article.class);
+//            
+//            query.setFirstResult((page - 1) * pageSize); 
+//            query.setMaxResults(pageSize); 
+//                     
+//            articles = query.getResultList();
+//            
+//            transaction.commit();
+//            LoggerMessage.info("AFFCIHE DATA l'article ");
+//
+//        } catch (Exception e) {
+//            if (transaction.isActive()) {
+//                transaction.rollback();
+//            }
+//            LoggerMessage.error(e.getMessage());
+//        } finally {
+//            entityManager.close();
+//            LoggerMessage.warn("Close");
+//
+//        }
+//        
+//        return articles;
+//    }
+//
+//    @Override
+//    public long count() {
+//    	 EntityManager entityManager = entityManagerFactory.createEntityManager();
+//    	    EntityTransaction transaction = entityManager.getTransaction();
+//    	    long count = 0;
+//    	    
+//    	    try {
+//    	        transaction.begin();
+//    	        
+//    	        String jpql = "SELECT COUNT(a) FROM Article a";
+//    	        Query query = entityManager.createQuery(jpql,Article.class);
+//    	        
+//    	        count = (Long) query.getSingleResult();
+//    	        
+//    	        transaction.commit();
+//    	    } catch (Exception e) {
+//    	        if (transaction.isActive()) {
+//    	            transaction.rollback();
+//    	        }
+//                LoggerMessage.error(e.getMessage());
+//    	    } finally {
+//    	        entityManager.close();
+//                LoggerMessage.warn("Close");
+//
+//    	    }
+//    	    
+//    	    return count;
+//    }
 
     public Article findById(Integer id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -190,5 +191,17 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
 
         }
     }
+
+	@Override
+	public List<Article> getPage(int page, int pageSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer count() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
