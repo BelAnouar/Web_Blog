@@ -6,20 +6,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jakarta.persistence.Entity;
+import com.webblog.services.ArticleService;
+
 
 
 public class Servletarticle extends HttpServlet {
        
  
-    public Servletarticle() {
+	private static final long serialVersionUID = 1L;
+
+    public ArticleService articleService;
+	public Servletarticle() {
         super();
-        // TODO Auto-generated constructor stub
+        articleService=new ArticleService();
     }
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
