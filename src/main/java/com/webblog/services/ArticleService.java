@@ -29,6 +29,7 @@ public class ArticleService {
     }
     
     public List<Article> getAllArticle(int page, int pageSize) {
+    	System.out.println(articleImpl.getPage(page, pageSize));
     	return articleImpl.getPage(page, pageSize);
     	
     }

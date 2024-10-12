@@ -47,7 +47,7 @@ public class ArticleImplTest {
         article.setContenu("Test Content"); 
         article.setDateCreation(LocalDate.now());
         article.setDatePublication(LocalDate.now());
-        article.setStatut(Status.Publié); 
+        article.setStatut(Status.Publie); 
         
         Auteur auteur = new Auteur();
         auteur.setId(1);  

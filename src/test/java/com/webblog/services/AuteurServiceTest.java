@@ -1,5 +1,4 @@
 package com.webblog.services;
-
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
