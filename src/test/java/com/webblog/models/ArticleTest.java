@@ -20,7 +20,7 @@ public class ArticleTest {
 
 	@Before
 	public void setUp() throws Exception {
-	    entityManagerFactory = Persistence.createEntityManagerFactory("webblogPU");
+	    entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
         entityManager = entityManagerFactory.createEntityManager();
 	}
     @After
@@ -53,8 +53,8 @@ public class ArticleTest {
 	        Article retrievedArticle = entityManager.find(Article.class, article.getId());
 
 	        assertNotNull(retrievedArticle);
-	        assertEquals("Test Title", retrievedArticle.getTitre());
-	        assertEquals("Test Content", retrievedArticle.getContenu());
+	        assertEquals("TestTitle", retrievedArticle.getTitre());
+	        assertEquals("TestContent", retrievedArticle.getContenu());
 
 	        System.out.println(retrievedArticle);
 	}
