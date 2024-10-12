@@ -14,17 +14,16 @@ import com.webblog.repositories.MultiInterface;
 import com.webblog.utilis.LoggerMessage;
 
 public class ArticleImpl implements GenericRepository<Article, Integer>, MultiInterface<Article> {
-    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("webblogPU");
+    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
 
-    
     public ArticleImpl() {
-    	   try {
-               this.entityManagerFactory = Persistence.createEntityManagerFactory("webblogPU");
-               System.out.println("EntityManagerFactory créé avec succès");
-           } catch (Exception e) {
-               System.err.println("Erreur lors de la création de l'EntityManagerFactory: " + e.getMessage());
-               e.printStackTrace();
-           }
+        try {
+            this.entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+            System.out.println("EntityManagerFactory créé avec succès");
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la création de l'EntityManagerFactory: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -110,54 +109,47 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
             LoggerMessage.warn("Close");
         }
     }
+
     @Override
     @SuppressWarnings("unchecked")
     public List<Article> getPage(int page, int pageSize) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<Article> articles = null;
         try {
-        	String jpql = "SELECT a.titre, a.contenu, a.dateCreation, a.datePublication, COUNT(c.id) AS commentaire " +
-                    "FROM Article a " +
-                    "JOIN a.commentaires c " +
-                    "GROUP BY a.id";
-
+            String jpql = "SELECT a FROM Article a JOIN a.auteur c WHERE c.role = 'Editeur'";
 
             Query query = entityManager.createQuery(jpql);
-            query.setFirstResult((page - 1) * pageSize); 
-            query.setMaxResults(pageSize); 
+            query.setFirstResult((page - 1) * pageSize);
+            query.setMaxResults(pageSize);
 
-            
-            articles = query.getResultList(); 
-            LoggerMessage.info("Affichage des articles");
+            articles = query.getResultList();
+            LoggerMessage.info("Nombre d'articles récupérés: " + (articles != null ? articles.size() : 0));
         } catch (Exception e) {
             LoggerMessage.error("Erreur lors de la récupération des articles: " + e.getMessage());
         } finally {
             entityManager.close();
             LoggerMessage.warn("Fermeture de l'EntityManager");
         }
-        return articles; 
+        return articles;
     }
-
-
 
     @Override
     public Integer count() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            String jpql = "SELECT COUNT(a) FROM Article a"; 
-            Query query = entityManager.createQuery(jpql); 
+            String jpql = "SELECT COUNT(a) FROM Article a";
+            Query query = entityManager.createQuery(jpql);
 
-            Long result = (Long) query.getSingleResult(); 
-            return result.intValue(); 
+            Long result = (Long) query.getSingleResult();
+            return result.intValue();
         } catch (Exception e) {
             LoggerMessage.error("Erreur lors du comptage des articles: " + e.getMessage());
-            return 0; 
+            return 0;
         } finally {
-            entityManager.close(); 
+            entityManager.close();
             LoggerMessage.warn("Fermeture de l'EntityManager");
         }
     }
-
 
     public Article findById(Integer id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -173,6 +165,21 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
         } finally {
             entityManager.close();
             LoggerMessage.warn("Close");
+        }
+    }
+
+    public int countCommentaires() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            String jpql = "SELECT COUNT(c) FROM Commentaire c WHERE c.article.id";
+            Query query = entityManager.createQuery(jpql);
+            Long result = (Long) query.getSingleResult();
+            return result.intValue();
+        } catch (Exception e) {
+            LoggerMessage.error("Erreur lors du comptage des commentaires: " + e.getMessage());
+            return 0;
+        } finally {
+            entityManager.close();
         }
     }
 }

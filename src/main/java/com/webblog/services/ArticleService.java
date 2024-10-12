@@ -37,4 +37,7 @@ public class ArticleService {
     	return articleImpl.count();
     }
     
+    public int getCommentCount() {
+        return articleImpl.countCommentaires();
+    }
 }

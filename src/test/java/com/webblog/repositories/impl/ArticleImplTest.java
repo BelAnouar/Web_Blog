@@ -32,7 +32,7 @@ public class ArticleImplTest {
         if (entityManager != null) {
             entityManager.close();
         }
-        
+
         if (entityManagerFactory != null) {
             entityManagerFactory.close();
         }
@@ -43,63 +43,80 @@ public class ArticleImplTest {
         entityManager.getTransaction().begin();
 
         Article article = new Article();
-        article.setTitre("Test Title");  
-        article.setContenu("Test Content"); 
+        article.setTitre("Test Title");
+        article.setContenu("Test Content");
         article.setDateCreation(LocalDate.now());
         article.setDatePublication(LocalDate.now());
-        article.setStatut(Status.Publie); 
-        
+        article.setStatut(Status.Publie);
+
         Auteur auteur = new Auteur();
-        auteur.setId(1);  
+        auteur.setId(1);
         article.setAuteur(auteur);
-        
+
         entityManager.persist(article);
         entityManager.getTransaction().commit();
 
         Article retrievedArticle = entityManager.find(Article.class, article.getId());
 
         assertNotNull(retrievedArticle);
-        assertEquals("Test Title", retrievedArticle.getTitre()); 
-        assertEquals("Test Content", retrievedArticle.getContenu());  
-
-        System.out.println(retrievedArticle);
+        assertEquals("Test Title", retrievedArticle.getTitre());
+        assertEquals("Test Content", retrievedArticle.getContenu());
+        assertEquals(Status.Publie, retrievedArticle.getStatut());
     }
 
     @Test
     public void testUpdate() {
-     
-
         entityManager.getTransaction().begin();
         Article article = new Article();
-        article.setId(21);
-        Article updatedArticle = entityManager.find(Article.class, article.getId());
-        updatedArticle.setTitre("asfi");
-        updatedArticle.setContenu("Content");
-        updatedArticle.setDateCreation(LocalDate.now());
-        updatedArticle.setDatePublication(LocalDate.now());
-        updatedArticle.setStatut(Status.Brouillon);
+        article.setTitre("Titre original");
+        article.setContenu("Contenu original");
+        article.setDateCreation(LocalDate.now());
+        article.setDatePublication(LocalDate.now());
+        article.setStatut(Status.Brouillon);
+        Auteur auteur = new Auteur();
+        auteur.setId(1);
+        article.setAuteur(auteur);
+        entityManager.persist(article);
         entityManager.getTransaction().commit();
 
-        Article retrievedArticle = entityManager.find(Article.class, article.getId());
+        entityManager.getTransaction().begin();
+        Article updatedArticle = entityManager.find(Article.class, article.getId());
+        updatedArticle.setTitre("Nouveau titre");
+        updatedArticle.setContenu("Nouveau contenu");
+        updatedArticle.setStatut(Status.Publie);
+      
+        entityManager.getTransaction().commit();
 
-        System.out.println("Updated Article: " + retrievedArticle);
+       
+        Article retrievedArticle = entityManager.find(Article.class, article.getId());
+        assertEquals("Nouveau titre", retrievedArticle.getTitre());
+        assertEquals("Nouveau contenu", retrievedArticle.getContenu());
+        assertEquals(Status.Publie, retrievedArticle.getStatut());
     }
 
     @Test
     public void testDelete() {
-    	 
-      
-       
-
         entityManager.getTransaction().begin();
         Article article = new Article();
-        article.setId(27);
+        article.setTitre("Test Title");
+        article.setContenu("Test Content");
+        article.setDateCreation(LocalDate.now());
+        article.setDatePublication(LocalDate.now());
+        article.setStatut(Status.Publie);
+
+        Auteur auteur = new Auteur();
+        auteur.setId(1);
+        article.setAuteur(auteur);
+
+        entityManager.persist(article);
+        entityManager.getTransaction().commit();
+
+        entityManager.getTransaction().begin();
         Article toDelete = entityManager.find(Article.class, article.getId());
         entityManager.remove(toDelete);
         entityManager.getTransaction().commit();
 
-     
-
-        System.out.println("Deleted Article: " + toDelete);
+        Article deletedArticle = entityManager.find(Article.class, article.getId());
+        assertNull(deletedArticle);
     }
 }

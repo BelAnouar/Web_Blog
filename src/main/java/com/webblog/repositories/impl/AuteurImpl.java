@@ -13,9 +13,16 @@ import com.webblog.repositories.MultiInterface;
 import com.webblog.utilis.LoggerMessage;
 
 public class AuteurImpl implements GenericRepository<Auteur, Integer>, MultiInterface<Auteur> {
-    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("webblogPU");
+    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
 
     public AuteurImpl() {
+        try {
+            this.entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+            System.out.println("EntityManagerFactory créé avec succès");
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la création de l'EntityManagerFactory: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -41,6 +48,22 @@ public class AuteurImpl implements GenericRepository<Auteur, Integer>, MultiInte
         }
     }
 
+    public List<Auteur> getAllAuteur() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<Auteur> auteurs = null;
+        try {
+            String jpql = "SELECT a FROM Auteur a";
+            Query query = entityManager.createQuery(jpql, Auteur.class);
+            auteurs = query.getResultList();
+            LoggerMessage.info("Nombre d'auteurs récupérés: " + (auteurs != null ? auteurs.size() : 0));
+        } catch (Exception e) {
+            LoggerMessage.error("Erreur lors de la récupération des auteurs: " + e.getMessage());
+        } finally {
+            entityManager.close();
+            LoggerMessage.warn("Fermeture de l'EntityManager");
+        }
+        return auteurs;
+    }
     @Override
     public Boolean update(Auteur entity) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
