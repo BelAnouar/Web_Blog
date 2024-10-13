@@ -39,4 +39,8 @@ public class ArticleService {
     public List<Article> searchArticlesByTitle(String title, int page, int pageSize) {
         return articleImpl.searchByTitle(title, page, pageSize);
     }
+
+    public int getCommentCountForArticle(Integer articleId) {
+        return articleImpl.getCommentCountForArticle(articleId);
+    }
 }

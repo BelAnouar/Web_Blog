@@ -188,4 +188,21 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
         }
     }
 
+    public int getCommentCountForArticle(Integer articleId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            String jpql = "SELECT COUNT(c) FROM Article a JOIN a.commentaires c WHERE a.id = :articleId";
+            Query query = entityManager.createQuery(jpql);
+            query.setParameter("articleId", articleId);
+            Long result = (Long) query.getSingleResult();
+            System.out.println("Nombre de commentaires pour l'article " + articleId + ": " + result);
+            return result.intValue();
+        } catch (Exception e) {
+            LoggerMessage.error("Erreur lors du comptage des commentaires pour l'article " + articleId + ": " + e.getMessage());
+            e.printStackTrace();
+            return 0;
+        } finally {
+            entityManager.close();
+        }
+    }
 }

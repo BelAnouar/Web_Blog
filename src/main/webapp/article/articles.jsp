@@ -40,6 +40,25 @@
 </header>
 
 <div class="w-full px-4 sm:w-[90%] mx-auto" >
+  <!-- Ajout des messages d'erreur et de succès -->
+  <c:if test="${not empty errors}">
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+      <strong class="font-bold">Erreur(s):</strong>
+      <ul class="list-disc list-inside">
+        <c:forEach var="error" items="${errors}">
+          <li>${error}</li>
+        </c:forEach>
+      </ul>
+    </div>
+  </c:if>
+
+  <c:if test="${not empty successMessage}">
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+      <strong class="font-bold">Succès:</strong>
+      <span class="block sm:inline">${successMessage}</span>
+    </div>
+  </c:if>
+
   <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-4 sm:space-y-0">
     <button type="button"
       class="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm tracking-wider font-medium border border-orange-600 outline-none bg-transparent hover:bg-gray-800 text-[#FFA726] hover:text-[#FFF] transition-all duration-300"
@@ -169,6 +188,14 @@
             <td class="p-4 text-sm text-black uppercase">${article.statut}</td>
             <td class="p-4 text-sm text-black uppercase  sm:table-cell">${article.auteur.nom} ${article.auteur.prenom}</td>
             <td class="p-4">
+<a href="${pageContext.request.contextPath}/articles?action=details&id=${article.id}" 
+           class="mr-2 p-2 bg-green-500 text-white rounded-md shadow hover:bg-green-600 transition duration-200 inline-flex items-center" 
+           title="Détails et commentaires">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+            <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+          </svg>
+        </a>
               <button 
                 class="mr-4 p-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition duration-200" 
                 title="Edit" 
@@ -223,10 +250,6 @@
     
     
  
-    
-    
-    
-    
     
     
     

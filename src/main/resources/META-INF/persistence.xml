@@ -8,6 +8,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.webblog.models.Article</class>
         <class>com.webblog.models.Auteur</class>
+        <class>com.webblog.models.Commentaire</class>
     
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

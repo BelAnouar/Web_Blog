@@ -2,8 +2,8 @@ package com.webblog.controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +17,7 @@ import com.webblog.models.Auteur;
 import com.webblog.services.ArticleService;
 import com.webblog.services.AuteurService;
 import com.webblog.utilis.LoggerMessage;
+import com.webblog.utilis.validateur;
 
 public class ServletArticle extends HttpServlet {
 
@@ -33,10 +34,16 @@ public class ServletArticle extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String action = request.getParameter("action");
+		if ("details".equals(action)) {
+			showDetails(request, response);
+			return;
+		}
+
 		int page = 1;
 		int pageSize = 3;
 
-		List<Auteur> auteur = auteurServices.getAllAuteurs();
+		List<Auteur> auteurs = auteurServices.getAllAuteurs();
 
 		String searchQuery = request.getParameter("search");
 
@@ -62,7 +69,7 @@ public class ServletArticle extends HttpServlet {
 		request.setAttribute("articles", articles);
 		request.setAttribute("currentPage", page);
 		request.setAttribute("totalPages", totalPages);
-		request.setAttribute("auteurs", auteur);
+		request.setAttribute("auteurs", auteurs);
 		request.setAttribute("searchQuery", searchQuery);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/article/articles.jsp");
@@ -90,11 +97,13 @@ public class ServletArticle extends HttpServlet {
 
 	private void addArticle(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String titre = request.getParameter("titre");
+		String titre = request.getParameter("titre").toLowerCase();
 		String contenu = request.getParameter("contenu");
 		String datePublicationStr = request.getParameter("datePublication");
 		String statutStr = request.getParameter("statut");
 		String auteurIdStr = request.getParameter("auteurId");
+
+		List<String> errors = new ArrayList<>();
 
 		try {
 			LocalDate datePublication = null;
@@ -108,21 +117,30 @@ public class ServletArticle extends HttpServlet {
 			Auteur auteur = auteurServices.findById(auteurId);
 			if (auteur != null) {
 				Article article = new Article();
-				article.setTitre(titre.toLowerCase());
+				article.setTitre(titre);
 				article.setContenu(contenu);
 				article.setDateCreation(LocalDate.now());
 				article.setDatePublication(datePublication);
 				article.setStatut(statut);
 				article.setAuteur(auteur);
 
-				articleService.save(article);
-				LoggerMessage.info("Article ajouté avec succès : " + article);
+				if (validateur.validerArticle(article)) {
+					articleService.save(article);
+					LoggerMessage.info("Article ajouté avec succès : " + article);
+					request.setAttribute("successMessage", "Article ajouté avec succès");
+				} else {
+					errors.add("Les données de l'article sont invalides");
+				}
 			} else {
-				LoggerMessage.error("Erreur : Auteur non trouvé");
+				errors.add("Erreur : Auteur non trouvé");
 			}
 		} catch (Exception e) {
 			LoggerMessage.debug("Erreur lors de l'ajout de l'article : " + e.getMessage());
-			e.printStackTrace();
+			errors.add("Une erreur est survenue lors de l'ajout de l'article");
+		}
+
+		if (!errors.isEmpty()) {
+			request.setAttribute("errors", errors);
 		}
 
 		doGet(request, response);
@@ -130,9 +148,11 @@ public class ServletArticle extends HttpServlet {
 
 	private void updateArticle(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		List<String> errors = new ArrayList<>();
+
 		try {
 			Integer id = Integer.parseInt(request.getParameter("id"));
-			String titre = request.getParameter("titre");
+			String titre = request.getParameter("titre").toLowerCase();
 			String contenu = request.getParameter("contenu");
 			LocalDate dateCreation = LocalDate.parse(request.getParameter("dateCreation"));
 			LocalDate datePublication = LocalDate.parse(request.getParameter("datePublication"));
@@ -141,30 +161,52 @@ public class ServletArticle extends HttpServlet {
 
 			Auteur auteur = auteurServices.findById(auteurId);
 			if (auteur == null) {
-				throw new IllegalArgumentException("Auteur not found with ID: " + auteurId);
+				errors.add("Erreur : Auteur non trouvé");
+			} else {
+				Article article = new Article();
+				article.setId(id);
+				article.setTitre(titre);
+				article.setContenu(contenu);
+				article.setDateCreation(dateCreation);
+				article.setDatePublication(datePublication);
+				article.setStatut(statut);
+				article.setAuteur(auteur);
+
+				if (validateur.validerArticle(article)) {
+					articleService.update(article);
+					request.setAttribute("successMessage", "Article mis à jour avec succès");
+				} else {
+					errors.add("Les données de l'article sont invalides");
+				}
 			}
-
-			Article article = new Article();
-			article.setId(id);
-			article.setTitre(titre.toLowerCase());
-			article.setContenu(contenu);
-			article.setDateCreation(dateCreation);
-			article.setDatePublication(datePublication);
-			article.setStatut(statut);
-			article.setAuteur(auteur);
-
-			articleService.update(article);
-
-			response.sendRedirect(request.getContextPath() + "/articles"); // تغيير حسب الحاجة
 		} catch (Exception e) {
-			LoggerMessage.debug("Erreur lors de l'ajout de l'article : " + e.getMessage());
+			LoggerMessage.debug("Erreur lors de la mise à jour de l'article : " + e.getMessage());
+			errors.add("Une erreur est survenue lors de la mise à jour de l'article");
 		}
+
+		if (!errors.isEmpty()) {
+			request.setAttribute("errors", errors);
+		}
+
+		doGet(request, response);
 	}
 
 	private void deleteArticle(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Integer id = Integer.parseInt(request.getParameter("id"));
-		articleService.delete(id);
+		List<String> errors = new ArrayList<>();
+
+		try {
+			Integer id = Integer.parseInt(request.getParameter("id"));
+			articleService.delete(id);
+			request.setAttribute("successMessage", "Article supprimé avec succès");
+		} catch (Exception e) {
+			LoggerMessage.debug("Erreur lors de la suppression de l'article : " + e.getMessage());
+			errors.add("Une erreur est survenue lors de la suppression de l'article");
+		}
+
+		if (!errors.isEmpty()) {
+			request.setAttribute("errors", errors);
+		}
 
 		doGet(request, response);
 	}
@@ -172,6 +214,24 @@ public class ServletArticle extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// Implémentation à ajouter si nécessaire
+	}
+
+	private void showDetails(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		Article article = articleService.findById(id);
+
+		if (article != null) {
+			int commentCount = articleService.getCommentCountForArticle(id);
+			request.setAttribute("article", article);
+			request.setAttribute("commentCount", commentCount);
+			System.out.println(commentCount);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/article/details.jsp");
+			dispatcher.forward(request, response);
+		} else {
+			request.setAttribute("error", "Article non trouvé");
+			doGet(request, response);
+		}
 	}
 
 }
