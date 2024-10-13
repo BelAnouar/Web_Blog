@@ -11,6 +11,8 @@ import com.webblog.services.AuteurService;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 public class AuteurServlet extends HttpServlet {
@@ -18,16 +20,15 @@ public class AuteurServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int page = 1;
-        int pageSize = 5; 
+        int page = Optional.ofNullable(request.getParameter("page"))
+                           .map(Integer::parseInt)
+                           .orElse(1);  
 
-        String pageParam = request.getParameter("page");
-        if (pageParam != null) {
-            page = Integer.parseInt(pageParam);
-        }
+        int pageSize = 5;
 
         List<Auteur> auteurs = auteurService.getAllAuteurs(page, pageSize);
-        request.setAttribute("auteurs", auteurs);
+
+        request.setAttribute("auteurs", auteurs.stream().collect(Collectors.toList()));
         request.setAttribute("currentPage", page);
 
         request.getRequestDispatcher("/auteur.jsp").forward(request, response);

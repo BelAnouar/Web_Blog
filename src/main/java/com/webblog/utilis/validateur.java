@@ -1,6 +1,7 @@
 package com.webblog.utilis;
 
 import com.webblog.models.Article;
+import com.webblog.enums.Role;
 import com.webblog.enums.Status;
 import com.webblog.models.Auteur;
 import java.time.LocalDate;
@@ -31,7 +32,28 @@ public class validateur {
         return statut != null;
     }
 
-    private static boolean validerAuteur(Auteur auteur) {
-        return auteur != null && auteur.getId() != null;
+    public static boolean validerAuteur(Auteur auteur) {
+        return validerNom(auteur.getNom()) &&
+               validerPrenom(auteur.getPrenom()) &&
+               validerEmail(auteur.getEmail()) &&
+               validerDateNaissance(auteur.getDateNaissance());
     }
+
+    private static boolean validerNom(String nom) {
+        return nom != null && !nom.trim().isEmpty() && nom.length() <= 50;
+    }
+
+    private static boolean validerPrenom(String prenom) {
+        return prenom != null && !prenom.trim().isEmpty() && prenom.length() <= 50;
+    }
+
+    private static boolean validerEmail(String email) {
+        return email != null && email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+    }
+
+    private static boolean validerDateNaissance(LocalDate dateNaissance) {
+        return dateNaissance != null && !dateNaissance.isAfter(LocalDate.now());
+    }
+
+    
 }
