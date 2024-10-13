@@ -14,8 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.webblog.enums.Status;
 import com.webblog.models.Article;
 import com.webblog.models.Auteur;
+import com.webblog.models.Commentaire;
+import com.webblog.models.Commontaire;
 import com.webblog.services.ArticleService;
 import com.webblog.services.AuteurService;
+import com.webblog.services.CommentaireService;
 import com.webblog.utilis.LoggerMessage;
 import com.webblog.utilis.validateur;
 
@@ -25,11 +28,13 @@ public class ServletArticle extends HttpServlet {
 
 	private ArticleService articleService;
 	private AuteurService auteurServices;
+	 private CommentaireService commentaireService;
 
 	public ServletArticle() {
 		super();
 		articleService = new ArticleService();
 		auteurServices = new AuteurService();
+		commentaireService=new CommentaireService();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -160,6 +165,8 @@ public class ServletArticle extends HttpServlet {
 			Integer auteurId = Integer.parseInt(request.getParameter("auteurId"));
 
 			Auteur auteur = auteurServices.findById(auteurId);
+			
+			
 			if (auteur == null) {
 				errors.add("Erreur : Auteur non trouvé");
 			} else {
@@ -213,19 +220,22 @@ public class ServletArticle extends HttpServlet {
 
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Implémentation à ajouter si nécessaire
+		
 	}
 
 	private void showDetails(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		Article article = articleService.findById(id);
-
+         List<Commentaire> comments = commentaireService.getCommentesByid(id);
+   
 		if (article != null) {
 			int commentCount = articleService.getCommentCountForArticle(id);
+			System.out.println(article);
 			request.setAttribute("article", article);
 			request.setAttribute("id", id);
 			request.setAttribute("commentCount", commentCount);
+			request.setAttribute("comments", comments);
 			System.out.println(commentCount);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/article/details.jsp");
 			dispatcher.forward(request, response);

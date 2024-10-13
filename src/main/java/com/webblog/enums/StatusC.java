@@ -4,5 +4,4 @@ public enum StatusC {
 	
 
 	Approuve,Rejete
-
 }

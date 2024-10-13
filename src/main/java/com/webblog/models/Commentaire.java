@@ -81,6 +81,12 @@ public class Commentaire {
 	public void setStatus(StatusC status) {
 		this.status = status;
 	}
+
+	@Override
+	public String toString() {
+		return "Commentaire [id=" + id + ", contenu=" + contenu + ", dateCreation=" + dateCreation + ", status="
+				+ status + ", article=" + article + "]";
+	}
 	
 
 
