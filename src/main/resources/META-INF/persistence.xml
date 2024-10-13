@@ -7,9 +7,14 @@
     <persistence-unit name="myPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.webblog.models.Article</class>
+<<<<<<< HEAD
+        <class>com.webblog.models.Author</class>
+        <class>com.webblog.models.Commontaire</class>
+=======
         <class>com.webblog.models.Auteur</class>
         <class>com.webblog.models.Commentaire</class>
     
+>>>>>>> master
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/blog_management?useSSL=false&amp;serverTimezone=UTC"/>
@@ -21,4 +26,8 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
+<<<<<<< HEAD
+</persistence>
+=======
 </persistence> 
+>>>>>>> master
