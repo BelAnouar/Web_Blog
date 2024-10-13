@@ -34,4 +34,7 @@ public class AuteurService {
     public Integer countAuteurs() {
         return auteurImpl.count();
     }
+    public List<Auteur> getAllAuteurs() {
+        return auteurImpl.getAllAuteur();
+    }
 }

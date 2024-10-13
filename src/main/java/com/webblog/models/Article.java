@@ -123,7 +123,7 @@ public class Article {
                 ", dateCreation=" + dateCreation +
                 ", datePublication=" + datePublication +
                 ", statut=" + statut +
-             // ", auteur=" + (auteur != null ? auteur.getName() : "null") +
+              ", auteur=" + (auteur != null ? auteur.getNom() : "null") +
                 '}';
     }
 }

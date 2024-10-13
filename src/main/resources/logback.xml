@@ -6,10 +6,7 @@
         </encoder>
     </appender>
 
-   
-    <logger name="org.hibernate" level="DEBUG"/>
-
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="FILE" />
     </root>
 </configuration>
