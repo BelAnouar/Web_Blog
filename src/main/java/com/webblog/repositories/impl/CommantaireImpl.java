@@ -1,5 +1,6 @@
 package com.webblog.repositories.impl;
 
+<<<<<<< HEAD
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -100,4 +101,12 @@ public class CommantaireImpl implements GenericRepository<Commontaire, Integer> 
             LoggerMessage.warn("Close");
         }
     }
+=======
+
+
+public class CommantaireImpl {
+
+	
+
+>>>>>>> master
 }

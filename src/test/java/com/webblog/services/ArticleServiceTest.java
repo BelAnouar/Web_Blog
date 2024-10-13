@@ -36,7 +36,11 @@ public class ArticleServiceTest {
         article.setContenu("Test Content");
         article.setDateCreation(LocalDate.now());
         article.setDatePublication(LocalDate.now());
+<<<<<<< HEAD
         article.setStatut(Status.Publié);
+=======
+        article.setStatut(Status.Publie);
+>>>>>>> master
 
         Auteur auteur = new Auteur();
         auteur.setId(1);
@@ -94,5 +98,9 @@ public class ArticleServiceTest {
         assertEquals(articleId, result.getId());
         verify(articleImpl, times(1)).findById(articleId);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
    
 }

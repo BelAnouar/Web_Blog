@@ -41,7 +41,11 @@ public class ArticleTest {
 	        article.setContenu("Content");
 	        article.setDateCreation(LocalDate.now());
 	        article.setDatePublication(LocalDate.now());
+<<<<<<< HEAD
 	        article.setStatut(Status.Publié); 
+=======
+	        article.setStatut(Status.Publie); 
+>>>>>>> master
             Auteur auteur= new Auteur();
             
             auteur.setId(1);
@@ -53,8 +57,13 @@ public class ArticleTest {
 	        Article retrievedArticle = entityManager.find(Article.class, article.getId());
 
 	        assertNotNull(retrievedArticle);
+<<<<<<< HEAD
 	        assertEquals("Test Title", retrievedArticle.getTitre());
 	        assertEquals("Test Content", retrievedArticle.getContenu());
+=======
+	        assertEquals("TestTitle", retrievedArticle.getTitre());
+	        assertEquals("TestContent", retrievedArticle.getContenu());
+>>>>>>> master
 
 	        System.out.println(retrievedArticle);
 	}

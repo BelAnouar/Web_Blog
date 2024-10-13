@@ -1,5 +1,7 @@
 package com.webblog.services;
 
+import java.util.List;
+
 import com.webblog.models.Article;
 import com.webblog.repositories.impl.ArticleImpl;
 
@@ -24,5 +26,18 @@ public class ArticleService {
 
     public Article findById(Integer id) {
         return articleImpl.findById(id);
+    }
+    
+    public List<Article> getAllArticle(int page, int pageSize) {
+    	System.out.println(articleImpl.getPage(page, pageSize));
+    	return articleImpl.getPage(page, pageSize);
+    	
+    }
+    public Integer countArteicle() {
+    	return articleImpl.count();
+    }
+    
+    public int getCommentCount() {
+        return articleImpl.countCommentaires();
     }
 }

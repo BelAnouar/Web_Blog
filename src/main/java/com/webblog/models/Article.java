@@ -1,7 +1,17 @@
 package com.webblog.models;
 
 import java.time.LocalDate;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -37,7 +47,7 @@ public class Article {
 
     @NotNull(message = "Le statut est obligatoire")
     @Enumerated(EnumType.STRING)
-    @Column(name = "statut", nullable = false)
+    @Column(name = "statut", nullable = false, columnDefinition = "ENUM('Brouillon', 'Publié')")
     private Status statut;
 
    
@@ -113,7 +123,7 @@ public class Article {
                 ", dateCreation=" + dateCreation +
                 ", datePublication=" + datePublication +
                 ", statut=" + statut +
-             // ", auteur=" + (auteur != null ? auteur.getName() : "null") +
+              ", auteur=" + (auteur != null ? auteur.getNom() : "null") +
                 '}';
     }
 }

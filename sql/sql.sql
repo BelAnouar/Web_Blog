@@ -11,7 +11,7 @@ CREATE TABLE `article` (
 	`contenu` TEXT NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
 	`dateCreation` DATE NOT NULL,
 	`datePublication` DATE NULL DEFAULT NULL,
-	`statut` ENUM('Brouillon','Publié') NOT NULL DEFAULT 'Brouillon' COLLATE 'utf8mb4_0900_ai_ci',
+	`statut` ENUM('Brouillon','Publie') NOT NULL DEFAULT 'Brouillon' COLLATE 'utf8mb4_0900_ai_ci',
 	`auteur_id` INT(10) NOT NULL,
 	PRIMARY KEY (`id`) USING BTREE,
 	INDEX `auteur_id` (`auteur_id`) USING BTREE,
@@ -20,8 +20,7 @@ CREATE TABLE `article` (
 	INDEX `idxarticletitre` (`titre`) USING BTREE,
 	CONSTRAINT `article_ibfk_1` FOREIGN KEY (`auteur_id`) REFERENCES `auteur` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 )
-COLLATE='utf8mb4_0900_ai_ci'
-ENGINE=InnoDB
+
 ;
 
 
@@ -35,8 +34,8 @@ CREATE TABLE IF NOT EXISTS `auteur` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `uc_email` (`email`),
-  CONSTRAINT `chk_role` CHECK ((`role` in (_utf8mb4'Contributeur',_utf8mb4'Editeur')))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `chk_role` CHECK ((`role` in ('Contributeur','Editeur')))
+) ;
 
 
 CREATE TABLE IF NOT EXISTS `commentaire` (
@@ -51,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `commentaire` (
   KEY `auteur_id` (`auteur_id`),
   CONSTRAINT `commentaire_ibfk_1` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `commentaire_ibfk_2` FOREIGN KEY (`auteur_id`) REFERENCES `auteur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 CREATE USER 'bloguser'@'localhost' IDENTIFIED BY 'password';
 ------------
