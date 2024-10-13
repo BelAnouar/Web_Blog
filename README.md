@@ -79,8 +79,8 @@ https://web-blog.atlassian.net/jira/software/c/projects/WB/boards/1/backlog?assi
 ### ⚡ Lancer les tests
 Les tests unitaires sont disponibles et peuvent être exécutés avec Maven :
 ```bash
-mvn test
-
+mvn test 
+```
 
 ## 🖼️ Captures d'écran
 
@@ -99,5 +99,9 @@ Intégration de fonctionnalités de tri et de filtre avancés pour les articles.
 Ajout d'une gestion des catégories pour les articles.
 Notification par email lors de la publication d’un article ou d’un commentaire approuvé.
 Implémentation d’un système de cache pour optimiser les performances.
+
+
+
+    
 
 
