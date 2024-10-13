@@ -39,7 +39,6 @@ public class ServletArticle extends HttpServlet {
 		List<Auteur> auteur = auteurServices.getAllAuteurs();
 
 		String searchQuery = request.getParameter("search");
-		String statusFilter = request.getParameter("statusFilter");
 
 		if (request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
@@ -48,29 +47,15 @@ public class ServletArticle extends HttpServlet {
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
 		}
 
-		int totalArticles = articleService.countArteicle();
+		List<Article> articles;
+		int totalArticles;
 
-		List<Article> articles = articleService.getAllArticle(page, pageSize);
-		
-
-			int commentCount = articleService.getCommentCount();
-			request.setAttribute("commentCount", commentCount);
-	
-
-		// Appliquer les filtres
-		if (searchQuery != null && !searchQuery.isEmpty() || statusFilter != null && !statusFilter.isEmpty()) {
-			articles = articles.stream()
-					.filter(article -> {
-						boolean matchesSearch = searchQuery == null || searchQuery.isEmpty() ||
-								(article.getTitre() != null
-										&& article.getTitre().toLowerCase().contains(searchQuery.toLowerCase()));
-						boolean matchesStatus = statusFilter == null || statusFilter.isEmpty() ||
-								(article.getStatut() != null && article.getStatut().toString().equals(statusFilter));
-						return matchesSearch && matchesStatus;
-					})
-					.collect(Collectors.toList());
-
+		if (searchQuery != null && !searchQuery.isEmpty()) {
+			articles = articleService.searchArticlesByTitle(searchQuery, page, pageSize);
 			totalArticles = articles.size();
+		} else {
+			articles = articleService.getAllArticle(page, pageSize);
+			totalArticles = articleService.countArteicle();
 		}
 
 		int totalPages = (int) Math.ceil((double) totalArticles / pageSize);
@@ -79,7 +64,6 @@ public class ServletArticle extends HttpServlet {
 		request.setAttribute("totalPages", totalPages);
 		request.setAttribute("auteurs", auteur);
 		request.setAttribute("searchQuery", searchQuery);
-		request.setAttribute("statusFilter", statusFilter);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/article/articles.jsp");
 		dispatcher.forward(request, response);
@@ -124,7 +108,7 @@ public class ServletArticle extends HttpServlet {
 			Auteur auteur = auteurServices.findById(auteurId);
 			if (auteur != null) {
 				Article article = new Article();
-				article.setTitre(titre);
+				article.setTitre(titre.toLowerCase());
 				article.setContenu(contenu);
 				article.setDateCreation(LocalDate.now());
 				article.setDatePublication(datePublication);
@@ -146,26 +130,35 @@ public class ServletArticle extends HttpServlet {
 
 	private void updateArticle(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Integer id = Integer.parseInt(request.getParameter("id"));
-		String titre = request.getParameter("titre");
-		String contenu = request.getParameter("contenu");
-		LocalDate dateCreation = LocalDate.parse(request.getParameter("dateCreation"));
-		LocalDate datePublication = LocalDate.parse(request.getParameter("datePublication"));
-		Status statut = Status.valueOf(request.getParameter("statut"));
-		Integer auteurId = Integer.parseInt(request.getParameter("auteurId"));
+		try {
+			Integer id = Integer.parseInt(request.getParameter("id"));
+			String titre = request.getParameter("titre");
+			String contenu = request.getParameter("contenu");
+			LocalDate dateCreation = LocalDate.parse(request.getParameter("dateCreation"));
+			LocalDate datePublication = LocalDate.parse(request.getParameter("datePublication"));
+			Status statut = Status.valueOf(request.getParameter("statut"));
+			Integer auteurId = Integer.parseInt(request.getParameter("auteurId"));
 
-		Auteur auteur = auteurServices.findById(auteurId);
-		Article article = new Article();
-		article.setId(id);
-		article.setTitre(titre);
-		article.setContenu(contenu);
-		article.setDateCreation(dateCreation);
-		article.setDatePublication(datePublication);
-		article.setStatut(statut);
-		article.setAuteur(auteur);
-		articleService.update(article);
+			Auteur auteur = auteurServices.findById(auteurId);
+			if (auteur == null) {
+				throw new IllegalArgumentException("Auteur not found with ID: " + auteurId);
+			}
 
-		doGet(request, response);
+			Article article = new Article();
+			article.setId(id);
+			article.setTitre(titre.toLowerCase());
+			article.setContenu(contenu);
+			article.setDateCreation(dateCreation);
+			article.setDatePublication(datePublication);
+			article.setStatut(statut);
+			article.setAuteur(auteur);
+
+			articleService.update(article);
+
+			response.sendRedirect(request.getContextPath() + "/articles"); // تغيير حسب الحاجة
+		} catch (Exception e) {
+			LoggerMessage.debug("Erreur lors de l'ajout de l'article : " + e.getMessage());
+		}
 	}
 
 	private void deleteArticle(HttpServletRequest request, HttpServletResponse response)

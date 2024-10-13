@@ -68,7 +68,7 @@ public class ArticleImplTest {
     public void testUpdate() {
         entityManager.getTransaction().begin();
         Article article = new Article();
-        article.setTitre("Titre original");
+        article.setTitre("original");
         article.setContenu("Contenu original");
         article.setDateCreation(LocalDate.now());
         article.setDatePublication(LocalDate.now());
@@ -84,6 +84,8 @@ public class ArticleImplTest {
         updatedArticle.setTitre("Nouveau titre");
         updatedArticle.setContenu("Nouveau contenu");
         updatedArticle.setStatut(Status.Publie);
+        auteur.setId(2);
+        updatedArticle.setAuteur(auteur);
       
         entityManager.getTransaction().commit();
 

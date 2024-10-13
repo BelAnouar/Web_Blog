@@ -1,5 +1,6 @@
 package com.webblog.repositories.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -63,23 +64,24 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
                 existingArticle.setDateCreation(entity.getDateCreation());
                 existingArticle.setDatePublication(entity.getDatePublication());
                 existingArticle.setStatut(entity.getStatut());
+                existingArticle.setAuteur(entity.getAuteur());
 
-                entityManager.merge(existingArticle);
                 transaction.commit();
-                LoggerMessage.info("Mise à jour réussie pour l'article");
+                LoggerMessage.info("Mise à jour réussie pour l'article avec ID: " + entity.getId());
                 return true;
             } else {
+                LoggerMessage.warn("Aucun article trouvé avec l'ID: " + entity.getId());
                 return false;
             }
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            LoggerMessage.error(e.getMessage());
+            LoggerMessage.error("Erreur lors de la mise à jour de l'article: " + e.getMessage());
             return false;
         } finally {
             entityManager.close();
-            LoggerMessage.warn("Close");
+            LoggerMessage.warn("EntityManager fermé");
         }
     }
 
@@ -168,18 +170,22 @@ public class ArticleImpl implements GenericRepository<Article, Integer>, MultiIn
         }
     }
 
-    public int countCommentaires() {
+    @SuppressWarnings("unchecked")
+    public List<Article> searchByTitle(String title, int page, int pageSize) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            String jpql = "SELECT COUNT(c) FROM Commentaire c WHERE c.article.id";
+            String jpql = "SELECT a FROM Article a WHERE LOWER(a.titre) LIKE LOWER(:title)";
             Query query = entityManager.createQuery(jpql);
-            Long result = (Long) query.getSingleResult();
-            return result.intValue();
+            query.setParameter("title", "%" + title + "%");
+            query.setFirstResult((page - 1) * pageSize);
+            query.setMaxResults(pageSize);
+            return query.getResultList();
         } catch (Exception e) {
-            LoggerMessage.error("Erreur lors du comptage des commentaires: " + e.getMessage());
-            return 0;
+            LoggerMessage.error("Erreur lors de la recherche d'articles par titre: " + e.getMessage());
+            return Collections.emptyList();
         } finally {
             entityManager.close();
         }
     }
+
 }

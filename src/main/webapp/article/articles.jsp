@@ -143,6 +143,8 @@
     </div>
   </div>
 
+
+
   <div class="overflow-x-auto">
     <table class=" w-full bg-white">
       <thead class="bg-gray-800 whitespace-nowrap">
@@ -160,12 +162,12 @@
       <tbody class="whitespace-nowrap ">
        <c:forEach var="article" items="${articles}">
           <tr class="even:bg-blue-50">
-            <td class="p-4 text-sm text-black">${article.titre}</td>
-            <td class="p-4 text-sm text-black  sm:table-cell">${article.contenu}</td>
-            <td class="p-4 text-sm text-black  md:table-cell">${article.dateCreation}</td>
-            <td class="p-4 text-sm text-black  md:table-cell">${article.datePublication}</td>
-            <td class="p-4 text-sm text-black">${article.statut}</td>
-            <td class="p-4 text-sm text-black  sm:table-cell">${article.auteur.nom}</td>
+            <td class="p-4 text-sm text-black uppercase">${article.titre}</td>
+            <td class="p-4 text-sm text-black uppercase  sm:table-cell">${article.contenu}</td>
+            <td class="p-4 text-sm text-black uppercase  md:table-cell">${article.dateCreation}</td>
+            <td class="p-4 text-sm text-black  uppercase md:table-cell">${article.datePublication}</td>
+            <td class="p-4 text-sm text-black uppercase">${article.statut}</td>
+            <td class="p-4 text-sm text-black uppercase  sm:table-cell">${article.auteur.nom} ${article.auteur.prenom}</td>
             <td class="p-4">
               <button 
                 class="mr-4 p-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition duration-200" 
@@ -195,29 +197,46 @@
     </table>
   </div>
 
-  <!-- Ajoutez ce code après la fermeture de la balise </table> -->
   <div class="flex justify-center mt-4">
     <nav class="inline-flex rounded-md shadow">
       <c:if test="${currentPage > 1}">
-        <a href="${pageContext.request.contextPath}/articles?page=${currentPage - 1}&search=${searchQuery}&statusFilter=${statusFilter}" class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">
+        <a href="${pageContext.request.contextPath}/articles?page=${currentPage - 1}&search=${searchQuery}" class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">
           Précédent
         </a>
       </c:if>
       
       <c:forEach begin="1" end="${totalPages}" var="i">
-        <a href="${pageContext.request.contextPath}/articles?page=${i}&search=${searchQuery}&statusFilter=${statusFilter}" class="px-3 py-2 text-sm font-medium ${currentPage == i ? 'text-orange-600 bg-orange-50' : 'text-gray-700 bg-white'} border border-gray-300 hover:bg-gray-50">
+        <a href="${pageContext.request.contextPath}/articles?page=${i}&search=${searchQuery}" class="px-3 py-2 text-sm font-medium ${currentPage == i ? 'text-orange-600 bg-orange-50' : 'text-gray-700 bg-white'} border border-gray-300 hover:bg-gray-50">
           ${i}
         </a>
       </c:forEach>
       
       <c:if test="${currentPage < totalPages}">
-        <a href="${pageContext.request.contextPath}/articles?page=${currentPage + 1}&search=${searchQuery}&statusFilter=${statusFilter}" class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">
+        <a href="${pageContext.request.contextPath}/articles?page=${currentPage + 1}&search=${searchQuery}" class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">
           Suivant
         </a>
       </c:if>
     </nav>
   </div>
 </div>
+    
+    
+    
+ 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 <!-- Modal Update -->
 <div id="updateModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">

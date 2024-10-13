@@ -29,7 +29,6 @@ public class ArticleService {
     }
     
     public List<Article> getAllArticle(int page, int pageSize) {
-    	System.out.println(articleImpl.getPage(page, pageSize));
     	return articleImpl.getPage(page, pageSize);
     	
     }
@@ -37,7 +36,7 @@ public class ArticleService {
     	return articleImpl.count();
     }
     
-    public int getCommentCount() {
-        return articleImpl.countCommentaires();
+    public List<Article> searchArticlesByTitle(String title, int page, int pageSize) {
+        return articleImpl.searchByTitle(title, page, pageSize);
     }
 }
