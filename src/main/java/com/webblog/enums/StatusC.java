@@ -2,5 +2,5 @@ package com.webblog.enums;
 
 public enum StatusC {
 	
-	Approuvé,Rejeté
+	Approuve,Rejete
 }
