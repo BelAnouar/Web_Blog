@@ -61,10 +61,10 @@
                   <path d="M303.85 138.388c-8.284 0-15 6.716-15 15v127.347c0 21.034-17.113 38.147-38.147 38.147H68.904c-21.035 0-38.147-17.113-38.147-38.147V100.413c0-21.034 17.113-38.147 38.147-38.147h131.587c8.284 0 15-6.716 15-15s-6.716-15-15-15H68.904C31.327 32.266.757 62.837.757 100.413v180.321c0 37.576 30.571 68.147 68.147 68.147h181.798c37.576 0 68.147-30.571 68.147-68.147V153.388c.001-8.284-6.715-15-14.999-15z" />
                 </svg>
               </button>
-              <form method="POST" action="auteur">
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="auteurId" value="${auteur.id}">
-                <button type="submit" title="Delete" class="mr-4">
+              <form method="POST" action="auteur" onsubmit="return confirm('Are you sure you want to delete this author?');">
+    <input type="hidden" name="action" value="delete">
+    <input type="hidden" name="auteurId" value="${auteur.id}">
+    <button type="submit" title="Delete" class="mr-4">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 fill-red-500 hover:fill-red-700" viewBox="0 0 24 24">
                     <path d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z" />
                     <path d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z" />
@@ -99,26 +99,26 @@
         <input type="hidden" name="action" value="add">
         <div class="mb-4">
         <label for="nom" class="block mb-1">Nom</label>
-        <input type="text" id="nom" name="nom" class="w-full p-2 border border-gray-300 rounded-lg">
+        <input type="text" id="nom" required name="nom" class="w-full p-2 border border-gray-300 rounded-lg">
       </div>
       <div class="mb-4">
         <label for="prenom" class="block mb-1">Prénom</label>
-        <input type="text" id="prenom" name="prenom" class="w-full p-2 border border-gray-300 rounded-lg">
+        <input type="text" id="prenom" required name="prenom" class="w-full p-2 border border-gray-300 rounded-lg">
       </div>
       <div class="mb-4">
         <label for="email" class="block mb-1">Email</label>
-        <input type="email" id="email" name="email" class="w-full p-2 border border-gray-300 rounded-lg">
+        <input type="email" id="email" required name="email" class="w-full p-2 border border-gray-300 rounded-lg">
       </div>
       <div class="mb-4">
         <label for="role" class="block mb-1">Role</label>
-        <select id="role" name="role" class="w-full p-2 border border-gray-300 rounded-lg">
+        <select id="role" name="role" required class="w-full p-2 border border-gray-300 rounded-lg">
           <option value="Contributeur">Contributeur</option>
           <option value="Editeur">Editeur</option>
         </select>
       </div>
       <div class="mb-4">
         <label for="dateNaissance" class="block mb-1">Date de naissance</label>
-        <input type="date" id="dateNaissance" name="dateNaissance" class="w-full p-2 border border-gray-300 rounded-lg">
+        <input type="date" id="dateNaissance" required name="dateNaissance" class="w-full p-2 border border-gray-300 rounded-lg">
       </div>
       <div class="flex justify-end">
           <button type="button" class="ml-2 bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700" id="closeAddModal">Annuler</button>
