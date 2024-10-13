@@ -13,8 +13,8 @@
     <div id="collapseMenu"
       class='bg-[#213343] lg:!flex lg:justify-between lg:gap-y-4 lg:gap-x-10 lg:px-10 lg:py-2'>
       <ul class='lg:!flex lg:gap-x-10 py-4'>
-        <li><a href='#' class='hover:text-[#FFA726] text-[#FFA726] text-md block'>Accueil</a></li>
-        <li><a href='#' class='hover:text-[#FFA726] text-white text-md block'>Auteurs</a></li>
+        <li><a href='/' class='hover:text-[#FFA726] text-[#FFA726] text-md block'>Accueil</a></li>
+        <li><a href='/auteur' class='hover:text-[#FFA726] text-white text-md block'>Auteurs</a></li>
         <li><a href='' class='hover:text-[#FFA726] text-white text-md block'>Articles</a></li>
         <li><a href='' class='hover:text-[#FFA726] text-white text-md block'>Commentaires</a></li>
       </ul>
