@@ -120,32 +120,27 @@ public class AuteurImpl implements GenericRepository<Auteur, Integer>, MultiInte
     @Override
     public List<Auteur> getPage(int page, int pageSize) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        
         List<Auteur> auteurs = null;
+
         try {
-            transaction.begin();
-            
             String jpql = "SELECT a FROM Auteur a";
             Query query = entityManager.createQuery(jpql, Auteur.class);
-            query.setFirstResult((page - 1) * pageSize);
-            query.setMaxResults(pageSize);
-            
-            auteurs = query.getResultList();
-            
-            transaction.commit();
-            LoggerMessage.info("Liste des auteurs récupérée");
+            query.setFirstResult((page - 1) * pageSize);  // Calculate the first result based on page and pageSize
+            query.setMaxResults(pageSize);  // Set max results (page size)
 
+            @SuppressWarnings("unchecked")
+            List<Auteur> result = query.getResultList();
+            auteurs = result;
+
+            LoggerMessage.info("List of authors retrieved successfully.");
         } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
-            LoggerMessage.error(e.getMessage());
+            LoggerMessage.error("Error fetching authors: " + e.getMessage());
         } finally {
             entityManager.close();
-            LoggerMessage.warn("Close");
+            LoggerMessage.warn("EntityManager closed.");
         }
-        
+        System.out.println(auteurs);
+
         return auteurs;
     }
 

@@ -20,4 +20,16 @@
         <servlet-name>ServletArticle</servlet-name>
         <url-pattern>/articles</url-pattern>
     </servlet-mapping>
+
+
+ 
+<servlet>
+    <servlet-name>AuteurServlet</servlet-name>
+    <servlet-class>com.webblog.controllers.AuteurServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>AuteurServlet</servlet-name>
+    <url-pattern>/auteur</url-pattern>
+</servlet-mapping>
+
 </web-app>
