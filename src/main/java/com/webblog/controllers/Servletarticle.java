@@ -1,6 +1,9 @@
 package com.webblog.controllers;
 
 import java.io.IOException;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +26,13 @@ public class Servletarticle extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		   try {
+	            EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
+	            System.out.println("EntityManagerFactory created: " + (emf != null));
+	            emf.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

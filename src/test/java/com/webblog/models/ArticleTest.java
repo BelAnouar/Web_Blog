@@ -20,7 +20,7 @@ public class ArticleTest {
 
 	@Before
 	public void setUp() throws Exception {
-	    entityManagerFactory = Persistence.createEntityManagerFactory("webblogPU");
+	    entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
         entityManager = entityManagerFactory.createEntityManager();
 	}
     @After

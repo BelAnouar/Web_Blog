@@ -15,7 +15,7 @@ import com.webblog.utilis.LoggerMessage;
 
 
 public class ArticleImpl implements GenericRepository<Article, Integer>, MultiInterface<Article> {
-    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("webblogPU");
+    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
 
     public ArticleImpl() {
     }
