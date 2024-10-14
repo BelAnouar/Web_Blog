@@ -53,7 +53,7 @@ public class ServletComments extends HttpServlet {
 		String action = request.getRequestURI()
 				.substring(request.getContextPath().length() + request.getServletPath().length());
 		System.out.println(action);
-		if ("insert".equals(action)) {
+		if ("/insert".equals(action)) {
 			createComments(request, response);
 		} else if ("/get".equals(action)) {
 			getComments(request, response);
@@ -121,6 +121,7 @@ public class ServletComments extends HttpServlet {
 		StatusC status = StatusC.valueOf(statusValue);
 
 		int articleId = Integer.parseInt(request.getParameter("id"));
+		System.out.println(request.getParameter("commentId"));
 		int commentId = Integer.parseInt(request.getParameter("commentId"));
 		Article article = articleService.findById(articleId);
 		Commontaire newComment = new Commontaire();

@@ -200,7 +200,7 @@ body {
 							<form
 								action="<%=request.getContextPath()%>/ServletComments/delete?id=${id}"
 								method="post">
-								<input type="hidden" name="commentId" id="modalCommentId"
+								<input type="hidden" name="commentId"
 									value="${comment.id}">
 								<button type="submit"
 									class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white dropdown-item">Remove</button>
