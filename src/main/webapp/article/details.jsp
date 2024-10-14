@@ -39,7 +39,9 @@ body {
 
 <script>
 	var app = angular.module('comApp', []);
-	app.controller('comCtrl',
+	app
+			.controller(
+					'comCtrl',
 					function($scope) {
 						$scope.getCommentDetails = function(commentId) {
 							console.log(commentId)
@@ -55,7 +57,7 @@ body {
 										async : false,
 										success : function(data, textStatus,
 												jqXHR) {
-											
+
 											commentDetails = data;
 
 										},
@@ -69,18 +71,17 @@ body {
 									});
 
 							$scope.comments = JSON.parse(commentDetails);
-							
-							 $scope.comments = JSON.parse(commentDetails);
 
-						        // Populate modal fields with the comment data
-						        $('#modalCommentId').val($scope.comments.id);        // Hidden comment ID field
-						        $('#modalComment').val($scope.comments.contenu);     // Comment text area
-						        $('#modalStatus').val($scope.comments.status);       // Comment status dropdown
+							$scope.comments = JSON.parse(commentDetails);
 
-						        // Open the modal programmatically (in case it's not already triggered)
-						        $('#exampleModal').modal('show');
+							$('#modalCommentId').val($scope.comments.id); // Hidden comment ID field
+							$('#modalComment').val($scope.comments.contenu); // Comment text area
+							$('#modalStatus').val($scope.comments.status); // Comment status dropdown
 
-													}
+							// Open the modal programmatically (in case it's not already triggered)
+							$('#exampleModal').modal('show');
+
+						}
 
 					})
 </script>
@@ -195,8 +196,15 @@ body {
 								data-bs-toggle="modal" data-bs-target="#exampleModal">
 								edit</button>
 						</li>
-						<li><a href="#"
-							class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white dropdown-item">Remove</a>
+						<li>
+							<form
+								action="<%=request.getContextPath()%>/ServletComments/delete?id=${id}"
+								method="post">
+								<input type="hidden" name="commentId" id="modalCommentId"
+									value="${comment.id}">
+								<button type="submit"
+									class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white dropdown-item">Remove</button>
+							</form>
 						</li>
 
 
@@ -216,41 +224,50 @@ body {
 
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Update Comment</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Comment update form -->
-                <form id="updateCommentForm" action="<%=request.getContextPath()%>/ServletComments/update" method="post">
-                    <!-- Hidden field for comment ID -->
-                    <input type="hidden" name="commentId" id="modalCommentId" value="">
-                    
-                    <!-- Comment text area -->
-                    <div class="form-group mb-4">
-                        <label for="modalComment" class="form-label">Your comment</label>
-                        <textarea name="comment" id="modalComment" rows="4" class="form-control" placeholder="Update your comment..." required></textarea>
-                    </div>
-                    
-                    <!-- Status dropdown -->
-                    <div class="form-group mb-4">
-                        <label for="modalStatus" class="form-label">Select Status</label>
-                        <select name="status" id="modalStatus" class="form-select">
-                            <option value="Approuve">Approuvé</option>
-                            <option value="Rejete">Rejeté</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" form="updateCommentForm">Save changes</button>
-            </div>
-        </div>
-    </div>
+<div class="modal fade" id="exampleModal" tabindex="-1"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Update
+					Comment</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+
+				<form id="updateCommentForm"
+					action="<%=request.getContextPath()%>/ServletComments/update?id=${id}"
+					method="post">
+
+					<input type="hidden" name="commentId" id="modalCommentId" value="">
+
+
+					<div class="form-group mb-4">
+						<label for="modalComment" class="form-label">Your comment</label>
+						<textarea name="comment" id="modalComment" rows="4"
+							class="form-control" placeholder="Update your comment..."
+							required></textarea>
+					</div>
+
+
+					<div class="form-group mb-4">
+						<label for="modalStatus" class="form-label">Select Status</label>
+						<select name="status" id="modalStatus" class="form-select">
+							<option value="Approuve">Approuvé</option>
+							<option value="Rejete">Rejeté</option>
+						</select>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary"
+					form="updateCommentForm">Save changes</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 

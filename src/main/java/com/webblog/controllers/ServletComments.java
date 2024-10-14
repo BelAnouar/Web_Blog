@@ -57,6 +57,10 @@ public class ServletComments extends HttpServlet {
 			createComments(request, response);
 		} else if ("/get".equals(action)) {
 			getComments(request, response);
+		}else if ("/update".equals(action)) {
+			updateComments(request, response);
+		}else if ("/delete".equals(action)) {
+			deleteComments(request, response);
 		} else {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action");
 		}
@@ -106,5 +110,54 @@ public class ServletComments extends HttpServlet {
 			}
 		}
 
+	}
+	
+	private void updateComments(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		String commentContent = request.getParameter("comment");
+
+		String statusValue = request.getParameter("status");
+		StatusC status = StatusC.valueOf(statusValue);
+
+		int articleId = Integer.parseInt(request.getParameter("id"));
+		int commentId = Integer.parseInt(request.getParameter("commentId"));
+		Article article = articleService.findById(articleId);
+		Commontaire newComment = new Commontaire();
+		newComment.setId(commentId);
+		newComment.setContenu(commentContent);
+		newComment.setDateCreation(LocalDate.now());
+		newComment.setStatus(status);
+		newComment.setArticle(article);
+		
+		
+		boolean success = commentaireService.modifierCommentaire(newComment);
+
+		if (success) {
+			response.sendRedirect(request.getContextPath() + "/articles?action=details&id=" + articleId);
+		} else {
+			request.setAttribute("error", "Failed to post comment. Please try again.");
+			request.getRequestDispatcher("/commentaire.jsp").forward(request, response);
+		}
+		
+		
+		
+		
+	}
+	
+	private void deleteComments(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		int articleId = Integer.parseInt(request.getParameter("id"));
+		int commentId = Integer.parseInt(request.getParameter("commentId"));
+		boolean success = commentaireService.deleteCommentaire(commentId);
+System.out.println(articleId);
+System.out.println(success);
+		if (success) {
+			response.sendRedirect(request.getContextPath() + "/articles?action=details&id=" + articleId);
+		} else {
+			request.setAttribute("error", "Failed to post comment. Please try again.");
+			request.getRequestDispatcher("/commentaire.jsp").forward(request, response);
+		}
 	}
 }

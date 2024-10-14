@@ -27,5 +27,12 @@ public class CommentaireService {
 		return CommantaireImpl.getComment(id);
 	}
 	
+	public boolean modifierCommentaire(Commontaire newComment) {
+		return CommantaireImpl.update(newComment);
+	}
+	public boolean deleteCommentaire(int idComment) {
+		return CommantaireImpl.delete(idComment);
+	}
+	
 	
 }
